@@ -56,7 +56,10 @@ def main(username:str, password:str):
                         }
                     sc = requests.post(scurl, data=data)
         else:
-            description = response.json()['description']
+            try:
+                description = response.json()['description']
+            except:
+                description = "未知"
             print(f"抽奖获得  {description}  ")
             msg += f"抽奖获得  {description}  ,"
 
@@ -79,7 +82,10 @@ def main(username:str, password:str):
                         }
                     sc = requests.post(scurl, data=data)
         else:
-            description = response.json()['description']
+            try:
+                description = response.json()['description']
+            except:
+                description = "未知"
             print(f"抽奖获得  {description}  ")
             msg += f"抽奖获得  {description}  ,"
     except Exception as e:
