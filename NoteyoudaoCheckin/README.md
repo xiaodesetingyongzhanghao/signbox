@@ -8,6 +8,7 @@ VPS/本地使用<br>
 1.测试环境为python3.7.9,自行安装python3<br>
 2.requirements.txt 是所需第三方模块，执行 `pip install -r requirements.txt` 安装模块<br>
 3.在脚本内直接修改"note_username"(str)为登录账号,"note_password"(str)为登录密码,"SCKEY(可选)"为Server酱推送<br>
+   或者添加系统环境变量变量名为"note_username"和"note_password"，值为账号和密码<br>
 4.Python 和需要模块都装好了直接在目录 cmd 运行所要运行的脚本。<br>
 5.每天定时：Windows定时可以使用自带的"任务计划程序"，Linux的话可以使用cron等。<br>
 <br>

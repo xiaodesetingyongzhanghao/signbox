@@ -7,6 +7,7 @@ s = requests.Session()
 note_username = os.environ.get('note_username')
 note_password = os.environ.get('note_password')
 SCKEY = os.environ.get('SCKEY')
+user_dict = {}
 
 def checkin(YNOTE_SESS): 
     checkin_url = 'http://note.youdao.com/yws/mapi/user?method=checkin'
@@ -26,9 +27,13 @@ def checkin(YNOTE_SESS):
         return msg
     # cookie 登录失效或获取失败，改用用户名密码登录
     else:
-        YNOTE_SESS = login(note_username, note_password)
-        if YNOTE_SESS:
-            checkin(YNOTE_SESS)
+        if note_username and note_password:
+            YNOTE_SESS = login(note_username, note_password)
+            if YNOTE_SESS:
+                msg = checkin(YNOTE_SESS)
+        else:
+            msg = "未设置账号密码并且cookie过期"
+        return msg
 
 def login(username, password):
     t = str(round(time.time()*1000))
@@ -45,7 +50,7 @@ def login(username, password):
     x = [i.value for i in s.cookies if i.name == 'YNOTE_SESS']
     if x.__len__() == 0:
         YNOTE_SESS = "-1"
-        msg = "有道云登录失败"
+        msg = f" {username} 有道云登录失败"
         print(msg)
         if SCKEY:
             scurl = f"https://sc.ftqq.com/{SCKEY}.send"
@@ -54,38 +59,58 @@ def login(username, password):
                     "desp" : r.text
                     }
             requests.post(scurl, data=data)
-        return
+        return ""
     else:
-        print(username+'登陆成功，更新YNOTE_SESS,重新签到')
+        print(f'{username} 登陆成功，更新YNOTE_SESS,重新签到')
         YNOTE_SESS = x[0]
         # 尝试更新cookie到config.json
         try:
-            data = {"YNOTE_SESS" : YNOTE_SESS}
+            user_dict[f"{username}"] = YNOTE_SESS
             with open('./config.json', 'w', encoding="utf8") as f:
-                json.dump(data, f, ensure_ascii=False)
+                json.dump(user_dict, f, ensure_ascii=False)
         except:
             print("无法写入config.json ,pass")
         return YNOTE_SESS
 
 
 def main(*args):
+    global note_username, note_password, user_dict
+    msg = ""
     try:
         with open('./config.json', 'r', encoding="utf8") as f:
             data = json.load(f)
-        YNOTE_SESS = data["YNOTE_SESS"]
+            user_dict = data
     except:
-        YNOTE_SESS = ""
-    if YNOTE_SESS:
-        msg = checkin(YNOTE_SESS)
-        return msg
-    else:
-        if note_username and note_password:
-            YNOTE_SESS = login(note_username, note_password)
-            if YNOTE_SESS:
-                msg = checkin(YNOTE_SESS)
-                return msg
+        data = ""
+    ulist = note_username.split("\n")
+    plist = note_password.split("\n")
+    # 如果cookie个数与账号数量不匹配则所有账号都重新登录一遍
+    if len(data) != len(ulist):
+        if len(ulist) == len(plist):
+            i = 0
+            while i < len(ulist):
+                note_username = ulist[i]
+                note_password = plist[i]
+                YNOTE_SESS = login(note_username, note_password)
+                if YNOTE_SESS:
+                    msg += checkin(YNOTE_SESS)
+                else:
+                    msg += f"{note_username} 登录失败"
+                msg += "\n"
+                i += 1
         else:
-            print("未设置账号密码")
+            msg = "账号密码个数不相符"
+            print(msg)
+    else:
+        c = 0
+        for i in data:
+            YNOTE_SESS = data[i]
+            note_username = ulist[c]
+            note_password = plist[c]
+            msg += checkin(YNOTE_SESS)
+            msg += "\n"
+            c += 1
+    return msg
 
 if __name__ == '__main__':
     if note_username and note_password:
