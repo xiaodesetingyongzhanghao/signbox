@@ -74,14 +74,19 @@ def login(username, password):
 
 
 def main(*args):
-    global note_username, note_password, user_dict
-    msg = ""
     try:
         with open('./config.json', 'r', encoding="utf8") as f:
             data = json.load(f)
-            user_dict = data
+            msg = check(data)
     except:
         data = ""
+        msg = check(data)
+    return msg
+
+def check(data):
+    global note_username, note_password, user_dict
+    msg = ""
+    user_dict = data
     ulist = note_username.split("\n")
     plist = note_password.split("\n")
     # 如果cookie个数与账号数量不匹配则所有账号都重新登录一遍
@@ -101,16 +106,22 @@ def main(*args):
         else:
             msg = "账号密码个数不相符"
             print(msg)
+        return msg
     else:
         c = 0
-        for i in data:
+        # 防止存在不为账号的键值，重新登录所有账号
+        for i in list(data):
+            if i not in str(ulist):
+                user_dict.pop(i)
+                msg = check(user_dict)
+                break
             YNOTE_SESS = data[i]
             note_username = ulist[c]
             note_password = plist[c]
             msg += checkin(YNOTE_SESS)
             msg += "\n"
             c += 1
-    return msg
+        return msg
 
 if __name__ == '__main__':
     if note_username and note_password:
