@@ -14,6 +14,9 @@ jobs:
        uses: actions/setup-python@master
        with: 
          python-version: 3.7
+     
+     - name: requirements
+       run : pip3 install -r requirements.txt
        
      - name: main
        env:
@@ -32,7 +35,6 @@ jobs:
          note_username: ${{ secrets.note_username }}
          note_password: ${{ secrets.note_password }}
        run: |
-         pip3 install -r requirements.txt
          python3 ./Cloud189Checkin/C189CheckinForSCF.py
          python3 ./FF14Checkin/FF14CheckinForSCF.py
          python3 ./Checkin52pj/Checkin52pjForSCF.py
