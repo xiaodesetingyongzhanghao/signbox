@@ -155,7 +155,7 @@ def main(*args):
             msg += f"第 {i+1} 个账号开始执行任务\n"
             netease_username = ulist[i]
             netease_password = plist[i]
-            msg += main(netease_username, netease_password)
+            msg += run(netease_username, netease_password)
             i += 1
     else:
         msg = "账号密码个数不相符"
