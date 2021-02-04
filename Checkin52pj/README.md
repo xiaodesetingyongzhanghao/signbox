@@ -4,7 +4,7 @@
 ### 推荐使用腾讯云函数跑，Github Actions跑容易访问网站502<br>
 ### 使用方法<br>
 Github Actions版本<br>
-PS.概率403访问出错，改多几个时间段，总有不是403的(SCF的是大概率403
+PS.概率403访问出错，改多几个时间段，总有不是403的(SCF的是大概率403<br>
 1.点击项目右上角的Fork，Fork此项目<br>
 2.到自己Fork的项目点击Setting→Secrets→New secrets<br>
 3.Name填写cookie_52pj，Value填写 获取到的cookie<br>
@@ -13,7 +13,7 @@ PS.概率403访问出错，改多几个时间段，总有不是403的(SCF的是�
 <br>
 <br>
 [腾讯云函数SCF](https://console.cloud.tencent.com/scf/index)的版本<br>
-PS.目前腾讯云SCF的ip段大概都被52pj封的差不多了，要用的话还是推荐使用Github Actions版本
+PS.目前腾讯云SCF的ip段大概都被52pj封的差不多了，要用的话还是推荐使用Github Actions版本<br>
 1.下载requirements.zip所需库，到[层](https://console.cloud.tencent.com/scf/layer)里面新建一个层<br>
 2.到[函数服务](https://console.cloud.tencent.com/scf/list)里面新建一个函数，输入名字，运行环境选择python3.6，选择空白模板，下一步<br>
 3.修改执行方法为index.pjCheckin，修改index.py文件，把SCF版py文件内容覆盖掉里面的函数，删除config.json<br>
