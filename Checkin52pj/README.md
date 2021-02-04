@@ -1,7 +1,6 @@
 # Checkin52pj
 ### 52pojie每日签到<br>
 因为登录获取到的cookies时间比较长，就没写自动登录了<br>
-### 推荐使用腾讯云函数跑，Github Actions跑容易访问网站502<br>
 ### 使用方法<br>
 Github Actions版本<br>
 PS.概率403访问出错，改多几个时间段，总有不是403的(SCF的是大概率403<br>
