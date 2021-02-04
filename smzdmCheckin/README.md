@@ -13,7 +13,7 @@ Github Actions版本<br>
 [腾讯云函数SCF](https://console.cloud.tencent.com/scf/index)的版本<br>
 1.下载requirements.zip所需库，到[层](https://console.cloud.tencent.com/scf/layer)里面新建一个层<br>
 2.到[函数服务](https://console.cloud.tencent.com/scf/list)里面新建一个函数，输入名字，运行环境选择python3.6，选择空白模板，下一步<br>
-3.修改执行方法为smzdm_pc，修改index.py文件，把SCF版py文件内容覆盖掉里面的函数，删除config.json<br>
+3.修改执行方法为index.smzdm_pc，修改index.py文件，把SCF版py文件内容覆盖掉里面的函数，删除config.json<br>
 4.高级设置，添加多个环境变量key内输入：1.cookie_smzdm 2.SCKEY(选填)<br>
 value内输入：1.获取到的cookie 2.Server酱推送SCKEY,报错提醒<br>
 5.层配置，添加层，选择刚才新建的层。最后点完成<br>
