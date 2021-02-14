@@ -32,7 +32,6 @@ def run(*arg):
         return msg
     elif '每日登录奖励已领取' in r.text:
         msg = '今天已经签到过啦！！！\n'
-        print(msg)
         return msg
     once = re.compile(r'once\=\d+').search(r.text)
     # print(once[0])
