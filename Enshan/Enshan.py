@@ -22,7 +22,7 @@ def run(*arg):
         'Accept-Encoding' : 'gzip, deflate, br',
         'Cookie': cookie
     }
-    r = s.get(url, headers=headers)
+    r = s.get(url, headers=headers, timeout=120)
     # print(r.text)
     if '每天登录' in r.text:
         h = etree.HTML(r.text)

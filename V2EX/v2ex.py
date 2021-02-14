@@ -18,7 +18,7 @@ def run(*arg):
         'accept-language' : 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7',
         'Cookie': cookie
     }
-    r = s.get(url, headers=headers, verify=False)
+    r = s.get(url, headers=headers, verify=False, timeout=120)
     # print(r.text)
     if '需要先登录' in r.text:
         msg = "cookie失效啦！！！！\n"
@@ -39,14 +39,14 @@ def run(*arg):
 
     # 签到
     sign_url = f"https://www.v2ex.com/mission/daily/redeem?{once[0]}"
-    sign = s.get(sign_url, headers=headers, verify=False)
+    sign = s.get(sign_url, headers=headers, verify=False, timeout=120)
     # 获取签到情况
     r = s.get(url, headers=headers, verify=False)
     if '每日登录奖励已领取' in r.text:
         msg += '签到成功！'
         # 查看获取到的数量
         check_url = 'https://www.v2ex.com/balance'
-        r = s.get(check_url, headers=headers, verify=False)
+        r = s.get(check_url, headers=headers, verify=False, timeout=120)
         data = re.compile(r'\d+?\s的每日登录奖励\s\d+\s铜币').search(r.text)
         msg += data[0] + '\n'
     else:

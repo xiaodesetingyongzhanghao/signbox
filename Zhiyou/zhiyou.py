@@ -25,7 +25,7 @@ def run(*arg):
         'Accept-Encoding' : 'gzip, deflate',
         'Cookie': cookie
     }
-    r = s.post(url, headers=headers, data=payload, verify=False)
+    r = s.post(url, headers=headers, data=payload, verify=False, timeout=120)
     # print(r.text)
     if '成功' in r.text:
         msg += re.compile(r'恭喜你签到成功!获得随机奖励 金币 \d+ 元.').search(r.text)[0]
