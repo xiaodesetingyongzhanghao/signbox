@@ -31,7 +31,6 @@ def run(*arg):
         h = etree.HTML(r.text)
         data = h.xpath('//tr/td[6]/text()')
         msg += f'签到成功或今日已签到，最后签到时间：{data[0]}'
-        print(msg)
     else:
         msg += '签到失败，可能是cookie失效了！'
         scurl = f"https://sc.ftqq.com/{SCKEY}.send"
@@ -40,7 +39,6 @@ def run(*arg):
             "desp" : r.text
             }
         requests.post(scurl, data=data)
-        print(msg)
     return msg + '\n'
 
 def main(*arg):

@@ -31,7 +31,6 @@ def run(*arg):
         msg += re.compile(r'恭喜你签到成功!获得随机奖励 金币 \d+ 元.').search(r.text)[0]
     elif '' in r.text:
         msg += '您今日已经签到，请明天再来！'
-        print(msg)
     else:
         msg += '签到失败，可能是cookie失效了！'
         scurl = f"https://sc.ftqq.com/{SCKEY}.send"
@@ -40,7 +39,6 @@ def run(*arg):
             "desp" : r.text
             }
         requests.post(scurl, data=data)
-        print(msg)
     return msg + '\n'
 
 def main(*arg):
