@@ -24,21 +24,22 @@ def run(*arg):
     }
     try:
         r = s.get(url, headers=headers, timeout=120)
+        # print(r.text)
+        if '每天登录' in r.text:
+            h = etree.HTML(r.text)
+            data = h.xpath('//tr/td[6]/text()')
+            msg += f'签到成功或今日已签到，最后签到时间：{data[0]}'
+        else:
+            msg += '签到失败，可能是cookie失效了！'
+            scurl = f"https://sc.ftqq.com/{SCKEY}.send"
+            data = {
+                "text" : "恩山论坛  签到失败，可能是cookie失效了！！！",
+                "desp" : r.text
+                }
+            requests.post(scurl, data=data)
     except:
-        print('无法正常连接到网站，请尝试改变网络环境，试下本地能不能跑脚本')
-    # print(r.text)
-    if '每天登录' in r.text:
-        h = etree.HTML(r.text)
-        data = h.xpath('//tr/td[6]/text()')
-        msg += f'签到成功或今日已签到，最后签到时间：{data[0]}'
-    else:
-        msg += '签到失败，可能是cookie失效了！'
-        scurl = f"https://sc.ftqq.com/{SCKEY}.send"
-        data = {
-            "text" : "恩山论坛  签到失败，可能是cookie失效了！！！",
-            "desp" : r.text
-            }
-        requests.post(scurl, data=data)
+        msg = '无法正常连接到网站，请尝试改变网络环境，试下本地能不能跑脚本，或者换几个时间点执行脚本'
+        print(msg)
     return msg + '\n'
 
 def main(*arg):
