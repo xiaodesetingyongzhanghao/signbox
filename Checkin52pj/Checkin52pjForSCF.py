@@ -2,7 +2,7 @@
 
 import requests, os
 from bs4 import BeautifulSoup
- 
+
 cookie = os.environ.get('cookie_52pj')
 
 def main(*args):
@@ -36,7 +36,9 @@ def main(*args):
         else:
             print(c)
     except:
-        print(b)
+        if "安域防护节点" in b:
+            print("触发52pj安全防护，访问出错。自行修改脚本运行时间和次数，总有能访问到的时间")
+        # print(b)
         print("52pj出错")
         msg += "52pj出错"
     return msg + "\n"
