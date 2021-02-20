@@ -1,6 +1,6 @@
 # FF14Checkin
 ### 最终幻想14积分商城签到，修改自[FF14AutoSignIn](https://github.com/renchangjiu/FF14AutoSignIn)<br>
-### 推荐使用腾讯云函数跑，小  心  异  地  登  录.jpg<br>
+### 现在在异地IP运行的话会触发验证码，小  心  异  地  登  录.jpg<br>
 ### 使用方法<br>
 Github Actions版本<br>
 1.点击项目右上角的Fork，Fork此项目<br>

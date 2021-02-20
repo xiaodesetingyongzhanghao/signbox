@@ -44,16 +44,17 @@ Github Actions版本直接Secrets内多账号时账号密码一行一个一一�
 
 ### 自动同步仓库设置<br>
 基础使用：<br>
-> 上游变动后pull插件会自动发起pr，但如果有冲突需要自行**手动**确认。<br>
+> 上游变动后pull插件会自动发起pr，在默认的配置文件中如果有冲突需要自行**手动**确认。<br>
 
 安装[pull插件](https://github.com/apps/pull)，然后设置生效的仓库并确认此项目已在pull插件的作用下<br>
+PS. 如果未设置pull.yml配置文件，则mergeMethod的规则默认为none(我也不清楚none的pr规则<br>
 
 高级使用：<br>
 > 强制远程分支覆盖自己的分支<br>
 
-1. 先完成基础使用后，在.github目录下创建文件pull.yml<br>
+1. 先完成基础使用后，在.github目录下(创建/修改)文件pull.yml<br>
 2. 参考[插件使用文档](https://github.com/wei/pull#advanced-setup-with-config)进行修改<br>
-PS.实际上修改Most Common中的内容就够了，注意修改upstream的值"wei"更改为上游仓库的所有者
+PS.强制远程分支覆盖自己的分支只需要将mergeMethod的值修改为hardreset
 
 
 ### 一切提醒都是报错提醒，没问题不提醒
