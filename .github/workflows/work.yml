@@ -37,6 +37,7 @@ jobs:
           cookie_v2ex: ${{ secrets.cookie_v2ex }}
           cookie_enshan: ${{ secrets.cookie_enshan }}
           cookie_zhiyou: ${{ secrets.cookie_zhiyou }}
+          wps_userid: ${{ secrets.wps_userid }}
         run: |
           python3 ./Cloud189Checkin/C189CheckinForSCF.py
           python3 ./FF14Checkin/FF14CheckinForSCF.py
@@ -47,3 +48,4 @@ jobs:
           python3 ./V2EX/v2ex.py
           python3 ./Enshan/Enshan.py
           python3 ./Zhiyou/zhiyou.py
+          python3 ./WPS/wps_invite.py
