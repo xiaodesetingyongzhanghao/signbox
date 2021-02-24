@@ -1,12 +1,43 @@
 import requests, json, time, os
 from lxml import etree
-requests.packages.urllib3.disable_warnings()
 
 cookie = os.environ.get("cookie_enshan")
 
+def pusher(*args):
+    msg = args[0]
+    othermsg = ""
+    for i in range(1, len(args)):
+        othermsg += args[i]
+        othermsg += "\n"
+    SCKEY = os.environ.get('SCKEY') # http://sc.ftqq.com/
+    SCTKEY = os.environ.get('SCTKEY') # http://sct.ftqq.com/
+    Skey = os.environ.get('Skey') # https://cp.xuthus.cc/
+    Smode = os.environ.get('Smode') # send, group, psend, pgroup, wx, tg, ww, ding(no send email)
+    if SCKEY:
+        sendurl = f"https://sc.ftqq.com/{SCKEY}.send"
+        data = {
+            "text" : msg,
+            "desp" : othermsg
+            }
+        requests.post(sendurl, data=data)
+    if SCTKEY:
+        sendurl = f"https://sctapi.ftqq.com/{SCTKEY}.send"
+        data = {
+            "title" : msg,
+            "desp" : othermsg
+            }
+        requests.post(sendurl, data=data)
+    if Skey:
+        if not Smode:
+            Smode = 'send'
+        if othermsg:
+            msg = msg + "\n" + othermsg
+        sendurl = f"https://push.xuthus.cc/{Smode}/{Skey}"
+        params = {"c" : msg}
+        requests.post(sendurl, params=params)
+
 def run(*arg):
     msg = ""
-    SCKEY = os.environ.get('SCKEY')
     s = requests.Session()
     s.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0'})
 
@@ -31,12 +62,7 @@ def run(*arg):
             msg += f'签到成功或今日已签到，最后签到时间：{data[0]}'
         else:
             msg += '签到失败，可能是cookie失效了！'
-            scurl = f"https://sc.ftqq.com/{SCKEY}.send"
-            data = {
-                "text" : "恩山论坛  签到失败，可能是cookie失效了！！！",
-                "desp" : r.text
-                }
-            requests.post(scurl, data=data)
+            pusher(msg)
     except:
         msg = '无法正常连接到网站，请尝试改变网络环境，试下本地能不能跑脚本，或者换几个时间点执行脚本'
         print(msg)

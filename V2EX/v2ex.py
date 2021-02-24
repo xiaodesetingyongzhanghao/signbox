@@ -1,12 +1,42 @@
 import requests, json, time, os, re
 
-requests.packages.urllib3.disable_warnings()
-
 cookie = os.environ.get("cookie_v2ex")
+
+def pusher(*args):
+    msg = args[0]
+    othermsg = ""
+    for i in range(1, len(args)):
+        othermsg += args[i]
+        othermsg += "\n"
+    SCKEY = os.environ.get('SCKEY') # http://sc.ftqq.com/
+    SCTKEY = os.environ.get('SCTKEY') # http://sct.ftqq.com/
+    Skey = os.environ.get('Skey') # https://cp.xuthus.cc/
+    Smode = os.environ.get('Smode') # send, group, psend, pgroup, wx, tg, ww, ding(no send email)
+    if SCKEY:
+        sendurl = f"https://sc.ftqq.com/{SCKEY}.send"
+        data = {
+            "text" : msg,
+            "desp" : othermsg
+            }
+        requests.post(sendurl, data=data)
+    if SCTKEY:
+        sendurl = f"https://sctapi.ftqq.com/{SCTKEY}.send"
+        data = {
+            "title" : msg,
+            "desp" : othermsg
+            }
+        requests.post(sendurl, data=data)
+    if Skey:
+        if not Smode:
+            Smode = 'send'
+        if othermsg:
+            msg = msg + "\n" + othermsg
+        sendurl = f"https://push.xuthus.cc/{Smode}/{Skey}"
+        params = {"c" : msg}
+        requests.post(sendurl, params=params)
 
 def run(*arg):
     msg = ""
-    SCKEY = os.environ.get('SCKEY')
     s = requests.Session()
     s.headers.update({'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36'})
 
@@ -22,12 +52,7 @@ def run(*arg):
     # print(r.text)
     if '需要先登录' in r.text:
         msg = "cookie失效啦！！！！\n"
-        scurl = f"https://sc.ftqq.com/{SCKEY}.send"
-        data = {
-            "text" : "V2EX  Cookie失效啦！！！",
-            "desp" : r.text
-            }
-        requests.post(scurl, data=data)
+        pusher("V2EX  Cookie失效啦！！！", r.text)
         print(msg)
         return msg
     elif '每日登录奖励已领取' in r.text:
@@ -50,12 +75,7 @@ def run(*arg):
         msg += data[0] + '\n'
     else:
         msg = '签到失败！\n'
-        scurl = f"https://sc.ftqq.com/{SCKEY}.send"
-        data = {
-            "text" : "V2EX  签到失败！！！",
-            "desp" : sign.text
-            }
-        requests.post(scurl, data=data)
+        pusher("V2EX  签到失败！！！", sign.text)
     return msg
 
 def main(*arg):

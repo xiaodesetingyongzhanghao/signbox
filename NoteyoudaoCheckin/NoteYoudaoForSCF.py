@@ -1,13 +1,43 @@
 import requests, sys, json, time, hashlib, os
 
-requests.packages.urllib3.disable_warnings()
-
 s = requests.Session()
 
 note_username = os.environ.get('note_username')
 note_password = os.environ.get('note_password')
-SCKEY = os.environ.get('SCKEY')
 user_dict = {}
+
+def pusher(*args):
+    msg = args[0]
+    othermsg = ""
+    for i in range(1, len(args)):
+        othermsg += args[i]
+        othermsg += "\n"
+    SCKEY = os.environ.get('SCKEY') # http://sc.ftqq.com/
+    SCTKEY = os.environ.get('SCTKEY') # http://sct.ftqq.com/
+    Skey = os.environ.get('Skey') # https://cp.xuthus.cc/
+    Smode = os.environ.get('Smode') # send, group, psend, pgroup, wx, tg, ww, ding(no send email)
+    if SCKEY:
+        sendurl = f"https://sc.ftqq.com/{SCKEY}.send"
+        data = {
+            "text" : msg,
+            "desp" : othermsg
+            }
+        requests.post(sendurl, data=data)
+    if SCTKEY:
+        sendurl = f"https://sctapi.ftqq.com/{SCTKEY}.send"
+        data = {
+            "title" : msg,
+            "desp" : othermsg
+            }
+        requests.post(sendurl, data=data)
+    if Skey:
+        if not Smode:
+            Smode = 'send'
+        if othermsg:
+            msg = msg + "\n" + othermsg
+        sendurl = f"https://push.xuthus.cc/{Smode}/{Skey}"
+        params = {"c" : msg}
+        requests.post(sendurl, params=params)
 
 def checkin(YNOTE_SESS): 
     checkin_url = 'http://note.youdao.com/yws/mapi/user?method=checkin'
@@ -52,13 +82,7 @@ def login(username, password):
         YNOTE_SESS = "-1"
         msg = f" {username} 有道云登录失败"
         print(msg)
-        if SCKEY:
-            scurl = f"https://sc.ftqq.com/{SCKEY}.send"
-            data = {
-                    "text" : msg,
-                    "desp" : r.text
-                    }
-            requests.post(scurl, data=data)
+        pusher(msg, r.text)
         return ""
     else:
         print(f'{username} 登陆成功，更新YNOTE_SESS,重新签到')

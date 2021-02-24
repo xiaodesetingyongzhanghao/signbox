@@ -26,9 +26,42 @@ login_password = os.environ.get("fflogin_password")
 area_name = os.environ.get("area_name")
 server_name = os.environ.get("server_name")
 role_name = os.environ.get("role_name")
-SCKEY = os.environ.get('SCKEY')
 global cookie
 cookie = {}
+
+def pusher(*args):
+    msg = args[0]
+    othermsg = ""
+    for i in range(1, len(args)):
+        othermsg += args[i]
+        othermsg += "\n"
+    SCKEY = os.environ.get('SCKEY') # http://sc.ftqq.com/
+    SCTKEY = os.environ.get('SCTKEY') # http://sct.ftqq.com/
+    Skey = os.environ.get('Skey') # https://cp.xuthus.cc/
+    Smode = os.environ.get('Smode') # send, group, psend, pgroup, wx, tg, ww, ding(no send email)
+    if SCKEY:
+        sendurl = f"https://sc.ftqq.com/{SCKEY}.send"
+        data = {
+            "text" : msg,
+            "desp" : othermsg
+            }
+        requests.post(sendurl, data=data)
+    if SCTKEY:
+        sendurl = f"https://sctapi.ftqq.com/{SCTKEY}.send"
+        data = {
+            "title" : msg,
+            "desp" : othermsg
+            }
+        requests.post(sendurl, data=data)
+    if Skey:
+        if not Smode:
+            Smode = 'send'
+        if othermsg:
+            msg = msg + "\n" + othermsg
+        sendurl = f"https://push.xuthus.cc/{Smode}/{Skey}"
+        params = {"c" : msg}
+        requests.post(sendurl, params=params)
+
 
 def __put_cookie(items):
     for item in items:
@@ -68,13 +101,7 @@ def step1() -> str:
         return obj["data"]["ticket"]
     else:
         print("登录失败, 短期内登录失败次数过多, 服务器已开启验证码, 请在1-3天后再试...")
-        if SCKEY:
-            scurl = f"https://sc.ftqq.com/{SCKEY}.send"
-            data = {
-                "text" : "FF14签到出错",
-                "desp" : "登录失败, 短期内登录失败次数过多, 服务器已开启验证码, 请在1-3天后再试..."
-                }
-            requests.post(scurl, data=data)
+        pusher("FF14签到出错", "登录失败, 短期内登录失败次数过多, 服务器已开启验证码, 请在1-3天后再试...")
         return None
 
 # 设置cookie
@@ -145,13 +172,7 @@ def step5() -> str:
             print("获取角色列表成功...")
             return role.format(r["cicuid"], r["worldname"], r["groupid"])
     print("获取角色列表失败...")
-    if SCKEY:
-        scurl = f"https://sc.ftqq.com/{SCKEY}.send"
-        data = {
-            "text" : "FF14签到出错",
-            "desp" : "获取角色列表失败..."
-            }
-        requests.post(scurl, data=data)
+    pusher("FF14签到出错", "获取角色列表失败...")
     return None
 
 # 选择区服及角色
@@ -187,13 +208,8 @@ def step7():
     r = requests.post(url, params=params, cookies=cookie)
     obj = json.loads(r.text)
     print(obj["Message"])
-    if obj["Message"] != "成功" and SCKEY:
-        scurl = f"https://sc.ftqq.com/{SCKEY}.send"
-        data = {
-            "text" : "FF14签到出错",
-            "desp" : "签到失败..."
-            }
-        requests.post(scurl, data=data)
+    if obj["Message"] != "成功":
+        pusher("FF14签到出错", "签到失败...")
         return False
     return True
 

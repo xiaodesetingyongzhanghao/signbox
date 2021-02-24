@@ -5,9 +5,39 @@ from urllib import parse
 
 username = os.environ.get('username')
 password = os.environ.get('password')
-SCKEY = os.environ.get('SCKEY')
-#推送url
-scurl = f"https://sc.ftqq.com/{SCKEY}.send"
+
+def pusher(*args):
+    msg = args[0]
+    othermsg = ""
+    for i in range(1, len(args)):
+        othermsg += args[i]
+        othermsg += "\n"
+    SCKEY = os.environ.get('SCKEY') # http://sc.ftqq.com/
+    SCTKEY = os.environ.get('SCTKEY') # http://sct.ftqq.com/
+    Skey = os.environ.get('Skey') # https://cp.xuthus.cc/
+    Smode = os.environ.get('Smode') # send, group, psend, pgroup, wx, tg, ww, ding(no send email)
+    if SCKEY:
+        sendurl = f"https://sc.ftqq.com/{SCKEY}.send"
+        data = {
+            "text" : msg,
+            "desp" : othermsg
+            }
+        requests.post(sendurl, data=data)
+    if SCTKEY:
+        sendurl = f"https://sctapi.ftqq.com/{SCTKEY}.send"
+        data = {
+            "title" : msg,
+            "desp" : othermsg
+            }
+        requests.post(sendurl, data=data)
+    if Skey:
+        if not Smode:
+            Smode = 'send'
+        if othermsg:
+            msg = msg + "\n" + othermsg
+        sendurl = f"https://push.xuthus.cc/{Smode}/{Skey}"
+        params = {"c" : msg}
+        requests.post(sendurl, params=params)
 
 def main(username:str, password:str):
     try:
@@ -49,12 +79,7 @@ def main(username:str, password:str):
             else:
                 print(response.text)
                 msg += "第一次抽奖出错,"
-                if(SCKEY != ""):
-                    data = {
-                        "text" : "第一次抽奖出错",
-                        "desp" : response.text
-                        }
-                    sc = requests.post(scurl, data=data)
+                pusher("第一次抽奖出错", response.text)
         else:
             try:
                 description = response.json()['description']
@@ -75,12 +100,7 @@ def main(username:str, password:str):
             else:
                 print(response.text)
                 msg += "第二次抽奖出错,"
-                if(SCKEY != ""):
-                    data = {
-                        "text" : "第二次抽奖出错",
-                        "desp" : response.text
-                        }
-                    sc = requests.post(scurl, data=data)
+                pusher("第二次抽奖出错", response.text)
         else:
             try:
                 description = response.json()['description']
@@ -90,12 +110,7 @@ def main(username:str, password:str):
             msg += f"抽奖获得  {description}  ,"
     except Exception as e:
         print("天翼云签到出错：", repr(e))
-        if(SCKEY != ""):
-            data = {
-                "text" : "天翼云签到出错",
-                "desp" : repr(e)
-                }
-            sc = requests.post(scurl, data=data)
+        pusher("天翼云签到出错", repr(e))
         msg += "天翼云签到出错："+repr(e)
     return msg + "\n"
 
@@ -139,9 +154,6 @@ def rsa_encode(j_rsakey, string):
     result = b64tohex((base64.b64encode(rsa.encrypt(f'{string}'.encode(), pubkey))).decode())
     return result
 
-def calculate_md5_sign(params):
-    return hashlib.md5('&'.join(sorted(params.split('&'))).encode('utf-8')).hexdigest()
-
 def login(username, password):
     s = requests.Session()
     url = "https://cloud.189.cn/udb/udb_login.jsp?pageId=1&redirectURL=/main.action"
@@ -175,16 +187,9 @@ def login(username, password):
     if(r.json()['result'] == 0):
         print(r.json()['msg'])
     else:
-        if(SCKEY == ""):
-            print(r.json()['msg'])
-        else:
-            msg = r.json()['msg']
-            print(msg)
-            data = {
-                "text" : "登录出错",
-                "desp" : f"错误提示：{msg}"
-                }
-            sc = requests.post(scurl, data=data)
+        msg = r.json()['msg']
+        print(msg)
+        pusher("登录出错", f"错误提示：{msg}")
         return "error"
     redirect_url = r.json()['toUrl']
     r = s.get(redirect_url)
