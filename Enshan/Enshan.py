@@ -44,7 +44,10 @@ def run(*arg):
 def main(*arg):
     msg = ""
     global cookie
-    clist = cookie.split("\n")
+    if "\\n" in cookie:
+        clist = cookie.split("\\n")
+    else:
+        clist = cookie.split("\n")
     i = 0
     while i < len(clist):
         msg += f"第 {i+1} 个账号开始执行任务\n"

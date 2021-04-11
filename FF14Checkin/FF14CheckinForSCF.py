@@ -221,11 +221,19 @@ def main(*arg):
 def go(*arg):
     msg = ""
     global login_name, login_password, area_name, server_name, role_name
-    nlist = login_name.split("\n")
-    plist = login_password.split("\n")
-    alist = area_name.split("\n")
-    slist = server_name.split("\n")
-    rlist = role_name.split("\n")
+    if "\\n" in login_name:
+        nlist = login_name.split("\\n")
+        plist = login_password.split("\\n")
+        alist = area_name.split("\\n")
+        slist = server_name.split("\\n")
+        rlist = role_name.split("\\n")
+    else:
+        nlist = login_name.split("\n")
+        plist = login_password.split("\n")
+        alist = area_name.split("\n")
+        slist = server_name.split("\n")
+        rlist = role_name.split("\n")
+
     if len(nlist) == len(plist) == len(alist) == len(slist) == len(rlist):
         i = 0
         while i < len(nlist):

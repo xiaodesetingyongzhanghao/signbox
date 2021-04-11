@@ -140,8 +140,12 @@ def run(*args):
 def main(*args):
     msg = ""
     global netease_username, netease_password
-    ulist = netease_username.split("\n")
-    plist = netease_password.split("\n")
+    if "\\n" in ulist:
+        ulist = netease_username.split("\\n")
+        plist = netease_password.split("\\n")
+    else:
+        ulist = netease_username.split("\n")
+        plist = netease_password.split("\n")
     if len(ulist) == len(plist):
         i = 0
         while i < len(ulist):

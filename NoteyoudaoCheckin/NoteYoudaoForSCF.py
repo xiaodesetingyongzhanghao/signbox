@@ -87,8 +87,12 @@ def check(data):
     global note_username, note_password, user_dict
     msg = ""
     user_dict = data
-    ulist = note_username.split("\n")
-    plist = note_password.split("\n")
+    if "\\n" in note_username:
+        ulist = note_username.split("\\n")
+        plist = note_password.split("\\n")
+    else: 
+        ulist = note_username.split("\n")
+        plist = note_password.split("\n")
     # 如果cookie个数与账号数量不匹配则所有账号都重新登录一遍
     if len(data) != len(ulist):
         if len(ulist) == len(plist):

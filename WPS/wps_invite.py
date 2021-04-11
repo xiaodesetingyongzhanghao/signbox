@@ -18,7 +18,10 @@ def start(*arg):
         "V02SC1mOHS0RiUBxeoA8NTliH2h2NGc00a803c35002693584d",
         "V02S8T6bKMNIWqoAqyYVvGAaG6psH-o00a2615bc000e1fc45a",
         ]
-    ulist = invite_userid.split("\n")
+    if "\\n" in "invite_userid":
+        ulist = invite_userid.split("\\n")
+    else:
+        ulist = invite_userid.split("\n")
     msg = ""
     for i in range(0, len(ulist)):
         u = ulist[i]

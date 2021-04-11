@@ -171,8 +171,12 @@ def login(username, password):
 def C189Checkin(*args):
     msg = ""
     global username, password
-    ulist = username.split("\n")
-    plist = password.split("\n")
+    if "\\n" in username:
+        ulist = username.split("\\n")
+        plist = password.split("\\n")
+    else:
+        ulist = username.split("\n")
+        plist = password.split("\n")
     if len(ulist) == len(plist):
         i = 0
         while i < len(ulist):
