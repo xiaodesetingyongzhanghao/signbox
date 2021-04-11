@@ -140,7 +140,7 @@ def run(*args):
 def main(*args):
     msg = ""
     global netease_username, netease_password
-    if "\\n" in ulist:
+    if "\\n" in netease_username:
         ulist = netease_username.split("\\n")
         plist = netease_password.split("\\n")
     else:
