@@ -1,6 +1,7 @@
 import requests, os
 
 def pusher(*args):
+    testmsg = ""
     msg = args[0]
     othermsg = ""
     for i in range(1, len(args)):
@@ -18,14 +19,16 @@ def pusher(*args):
             "text" : msg,
             "desp" : othermsg
             }
-        requests.post(sendurl, data=data)
+        r = requests.post(sendurl, data=data)
+        testmsg += f"{r.text}\n"
     if SCTKEY:
         sendurl = f"https://sctapi.ftqq.com/{SCTKEY}.send"
         data = {
             "title" : msg,
             "desp" : othermsg
             }
-        requests.post(sendurl, data=data)
+        r = requests.post(sendurl, data=data)
+        testmsg += f"{r.text}\n"
     if pushplus_token:
         sendurl = "http://www.pushplus.plus/send"
         if not othermsg:
@@ -46,8 +49,9 @@ def pusher(*args):
                 "template" : "html"
             }
         r = requests.post(sendurl, params=params)
-        print(r.json())
+        testmsg += f"{r.text}\n"
         if r.json()["code"] != 200:
+            print(r.json())
             print(f"pushplus推送失败！{r.json()['msg']}")
     if Skey:
         if not Smode:
@@ -56,4 +60,8 @@ def pusher(*args):
             msg = msg + "\n" + othermsg
         sendurl = f"https://push.xuthus.cc/{Smode}/{Skey}"
         params = {"c" : msg}
-        requests.post(sendurl, params=params)
+        r = requests.post(sendurl, params=params)
+        testmsg += f"{r.text}\n"
+    return testmsg
+
+
