@@ -21,6 +21,11 @@ jobs:
       - name: main
         env:
           SCKEY: ${{ secrets.SCKEY }}
+          SCTKEY: ${{ secrets.SCTKEY }}
+          Skey: ${{ secrets.Skey }}
+          Smode: ${{ secrets.Smode }}
+          pushplus_token: ${{ secrets.pushplus_token }}
+          pushplus_topic: ${{ secrets.pushplus_topic }}
           username: ${{ secrets.username }}
           password: ${{ secrets.password }}
           fflogin_name: ${{ secrets.fflogin_name }}
