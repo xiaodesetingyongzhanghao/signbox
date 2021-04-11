@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 
 import requests, base64, json, hashlib, os, sys
-sys.path.append('..')
+sys.path.append('.')
 requests.packages.urllib3.disable_warnings()
 try:
     from pusher import pusher

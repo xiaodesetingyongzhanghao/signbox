@@ -1,5 +1,5 @@
 import requests, json, time, os, sys
-sys.path.append('..')
+sys.path.append('.')
 requests.packages.urllib3.disable_warnings()
 try:
     from pusher import pusher

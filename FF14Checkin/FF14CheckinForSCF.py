@@ -4,7 +4,7 @@ import json
 import time
 import os
 import requests, sys
-sys.path.append('..')
+sys.path.append('.')
 requests.packages.urllib3.disable_warnings()
 try:
     from pusher import pusher
