@@ -35,11 +35,10 @@ def main(*args):
         else:
             print(c)
     except:
-        if "防护" in b:
-            print("触发52pj安全防护，访问出错。自行修改脚本运行时间和次数，总有能访问到的时间")
-        # print(b)
-        print("52pj出错")
-        msg += "52pj出错"
+        print("52pj出错,大概率是触发52pj安全防护，访问出错。自行修改脚本运行时间和次数，总有能访问到的时间")
+        msg += "52pj出错,大概率是触发52pj安全防护，访问出错。自行修改脚本运行时间和次数，总有能访问到的时间"
+        print("如果错误需要推送的话，自行去掉代码内的注释")
+        #pusher("52pojie  签到失败", b)
     return msg + "\n"
 
 def pjCheckin(*args):
