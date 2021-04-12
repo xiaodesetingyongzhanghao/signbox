@@ -24,5 +24,8 @@ jobs:
           Smode: ${{ secrets.Smode }}
           pushplus_token: ${{ secrets.pushplus_token }}
           pushplus_topic: ${{ secrets.pushplus_topic }}
+          tg_token: ${{ secrets.tg_token }}
+          tg_chatid: ${{ secrets.tg_chatid }}
+          tg_api_host: ${{ secrets.tg_api_host }}
         run: |
           python3 ./PusherTest/PusherTest.py

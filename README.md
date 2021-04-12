@@ -55,6 +55,9 @@ Github Actions添加在Setting→Secrets→New secrets，腾讯云函数SCF设�
 4. Key: Smode --> Value: 酷推的推送渠道，不设置默认send.可选参数(send,group,psend,pgroup,wx,tg,ww,ding)<br>
 5. Key: pushplus_token --> Value: [pushplus推送token](http://www.pushplus.plus/)<br>
 6. Key: pushplus_topic --> Value: pushplus一对多推送需要的"群组编码"，一对一推送不用管填了报错<br>
+7. Key: tg_token --> Value: Telegram bot的Token，Telegram机器人通知推送必填项<br>
+8. Key: tg_chatid --> Value: 接收通知消息的Telegram用户的id，Telegram机器人通知推送必填项<br>
+9. Key: tg_api_host --> Value: Telegram api自建的反向代理地址(不懂忽略此项)，默认tg官方api=api.telegram.org<br>
 PS:腾讯云函数SCF的默认无推送，需要推送的话需要将[pusher.py](https://github.com/mengshouer/CheckinBox/blob/master/pusher.py)内的内容直接复制到所需函数的代码最上方！！！
 #### 一切提醒都是报错提醒，没问题不提醒
 
