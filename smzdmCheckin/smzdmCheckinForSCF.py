@@ -26,7 +26,7 @@ def main(*arg):
         r = s.get(url, headers=headers, verify=False)
         print(r.text.encode('latin-1').decode('unicode_escape'))
         if r.json()["error_code"] != 0:
-            pusher("smzdm  Cookie过期", r.text)
+            pusher("smzdm  Cookie过期", r.text[:200])
             msg += "smzdm cookie失效"
         else:
             msg += "smzdm签到成功"

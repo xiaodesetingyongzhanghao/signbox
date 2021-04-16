@@ -19,7 +19,7 @@ def main(username:str, password:str):
         if(s == "error"):
             return "天翼云盘登录出错"
         else:
-            pass
+            msg += "登录成功\n"
         rand = str(round(time.time()*1000))
         surl = f'https://api.cloud.189.cn/mkt/userSign.action?rand={rand}&clientType=TELEANDROID&version=8.6.3&model=SM-G930K'
         url = f'https://m.cloud.189.cn/v2/drawPrizeMarketDetails.action?taskId=TASK_SIGNIN&activityId=ACT_SIGNIN'
@@ -34,55 +34,44 @@ def main(username:str, password:str):
         response = s.get(surl,headers=headers,timeout=20)
         netdiskBonus = response.json()['netdiskBonus']
         if(response.json()['isSign'] == "false"):
-            print(f"未签到，签到获得  {netdiskBonus}  M空间")
             msg += f"未签到，签到获得  {netdiskBonus}  M空间\n"
         else:
-            print(f"已经签到过了，签到获得  {netdiskBonus}  M空间")
             msg += f"已经签到过了，签到获得  {netdiskBonus}  M空间,"
 
         #第一次抽奖
         response = s.get(url,headers=headers,timeout=20)
         if ("errorCode" in response.text):
             if("User_Not_Chance" in response.text):
-                print("抽奖次数不足")
                 msg += "抽奖次数不足,"
             elif("InternalError" in response.text):
-                print("内部错误，可能是活动下线")
                 msg += "内部错误，可能是活动下线,"
             else:
-                print(response.text)
-                msg += "第一次抽奖出错,"
-                pusher("第一次抽奖出错", response.text)
+                msg += "第一次抽奖出错\n" + response.text
+                pusher("第一次抽奖出错", response.text[:200])
         else:
             try:
                 description = response.json()['description']
             except:
                 description = "未知"
-            print(f"抽奖获得  {description}  ")
             msg += f"抽奖获得  {description}  ,"
 
         #第二次抽奖
         response = s.get(url2,headers=headers,timeout=20)
         if ("errorCode" in response.text):
             if("User_Not_Chance" in response.text):
-                print("抽奖次数不足")
                 msg += "抽奖次数不足,"
             elif("InternalError" in response.text):
-                print("内部错误，可能是活动下线")
                 msg += "内部错误，可能是活动下线,"
             else:
-                print(response.text)
-                msg += "第二次抽奖出错,"
-                pusher("第二次抽奖出错", response.text)
+                msg += "第二次抽奖出错\n" + response.text
+                pusher("第二次抽奖出错", response.text[:200])
         else:
             try:
                 description = response.json()['description']
             except:
                 description = "未知"
-            print(f"抽奖获得  {description}  ")
             msg += f"抽奖获得  {description}  ,"
     except Exception as e:
-        print("天翼云签到出错：", repr(e))
         pusher("天翼云签到出错", repr(e))
         msg += "天翼云签到出错："+repr(e)
     return msg + "\n"
@@ -158,11 +147,12 @@ def login(username, password):
         }
     r = s.post(url, data=data, headers=headers, timeout=5)
     if(r.json()['result'] == 0):
-        print(r.json()['msg'])
+        # print(r.json()['msg'])
+        pass
     else:
         msg = r.json()['msg']
         print(msg)
-        pusher("登录出错", f"错误提示：{msg}")
+        pusher("天翼云盘登录出错", f"错误提示：{msg[:200]}")
         return "error"
     redirect_url = r.json()['toUrl']
     r = s.get(redirect_url)
@@ -186,8 +176,8 @@ def C189Checkin(*args):
             msg += main(username, password)
             i += 1
     else:
-        msg = "账号密码个数不相符"
-        print(msg)
+        msg = "账号密码个数不相符\n"
+    print(msg[:-1])
     return msg
 
 if __name__ == "__main__":

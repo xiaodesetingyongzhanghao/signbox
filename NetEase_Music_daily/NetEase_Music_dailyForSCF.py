@@ -77,7 +77,7 @@ def run(*args):
         if object['code']!=200 and object['code']!=-2:
             print("签到时发生错误："+object['msg'])
             msg += "签到时发生错误,"
-            pusher("网易云音乐签到时发生错误", object['msg'])
+            pusher("网易云音乐签到时发生错误", object['msg'][:200])
         else:
             if object['code']==200:
                 print("签到成功，经验+"+str(object['point']))
@@ -131,7 +131,7 @@ def run(*args):
             text = "发生错误："+str(object['code'])+object['message']
             print(text)
             msg += text
-            pusher("网易云音乐刷歌单时发生错误", object['message'])
+            pusher("网易云音乐刷歌单时发生错误", object['message'][:200])
     except Exception as e:
         print('repr(e):', repr(e))
         msg += '运行出错,repr(e):'+repr(e)

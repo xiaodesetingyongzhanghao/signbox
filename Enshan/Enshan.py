@@ -38,7 +38,6 @@ def run(*arg):
             pusher(msg)
     except:
         msg = '无法正常连接到网站，请尝试改变网络环境，试下本地能不能跑脚本，或者换几个时间点执行脚本'
-        print(msg)
     return msg + '\n'
 
 def main(*arg):

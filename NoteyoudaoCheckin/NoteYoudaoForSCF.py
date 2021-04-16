@@ -37,7 +37,7 @@ def checkin(YNOTE_SESS):
             msg = "未设置账号密码并且cookie过期"
         return msg
     else:
-        pusher("有道云笔记签到出现未知错误", r.text)
+        pusher("有道云笔记签到出现未知错误", r.text[:200])
         return r.text
 
 def login(username, password):
@@ -57,7 +57,7 @@ def login(username, password):
         YNOTE_SESS = "-1"
         msg = f" {username} 有道云登录失败"
         print(msg)
-        pusher(msg, r.text)
+        pusher(msg, r.text[:200])
         return ""
     else:
         print(f'{username} 登陆成功，更新YNOTE_SESS,重新签到')

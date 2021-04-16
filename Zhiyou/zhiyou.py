@@ -36,7 +36,7 @@ def run(*arg):
         msg += '您今日已经签到，请明天再来！'
     else:
         msg += '签到失败，可能是cookie失效了！'
-        pusher("智友邦  签到失败，可能是cookie失效了！！！", r.text)
+        pusher("智友邦  签到失败，可能是cookie失效了！！！", r.text[:200])
     return msg + '\n'
 
 def main(*arg):

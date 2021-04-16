@@ -27,17 +27,13 @@ def main(*args):
 
         if "您需要先登录才能继续本操作"  in c:
             pusher("52pojie  Cookie过期", c)
-            print("cookie_52pj失效，需重新获取")
             msg += "cookie_52pj失效，需重新获取"
         elif "恭喜"  in c:
-            print("52pj签到成功")
             msg += "52pj签到成功"
         else:
             print(c)
     except:
-        print("52pj出错,大概率是触发52pj安全防护，访问出错。自行修改脚本运行时间和次数，总有能访问到的时间")
         msg += "52pj出错,大概率是触发52pj安全防护，访问出错。自行修改脚本运行时间和次数，总有能访问到的时间"
-        print("如果错误需要推送的话，自行去掉代码内的注释")
         #pusher("52pojie  签到失败", b)
     return msg + "\n"
 
