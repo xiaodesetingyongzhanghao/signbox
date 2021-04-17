@@ -6,7 +6,7 @@
 
 - [什么值得买网页每日签到](https://github.com/mengshouer/CheckinBox/tree/master/smzdmCheckin)
 
-- [52pojie每日签到](https://github.com/mengshouer/CheckinBox/tree/master/Checkin52pj)
+- [52pojie每日签到+免费评分](https://github.com/mengshouer/CheckinBox/tree/master/Checkin52pj)
 
 - [网易云音乐每日签到与刷歌单](https://github.com/mengshouer/CheckinBox/tree/master/NetEase_Music_daily)
 
