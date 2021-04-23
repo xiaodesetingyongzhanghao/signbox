@@ -18,8 +18,6 @@
 
 - [智友邦签到](https://github.com/mengshouer/CheckinBox/tree/master/Zhiyou)
 
-- [WPS小程序邀请](https://github.com/mengshouer/CheckinBox/tree/master/WPS)
-
 
 ### Github Actions版本<br>
 1.点击项目右上角的Fork，Fork此项目<br>
