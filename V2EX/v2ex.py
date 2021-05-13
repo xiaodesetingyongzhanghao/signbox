@@ -45,6 +45,10 @@ def run(*arg):
         r = s.get(check_url, headers=headers, verify=False, timeout=120)
         data = re.compile(r'\d+?\s的每日登录奖励\s\d+\s铜币').search(r.text)
         msg += data[0] + '\n'
+    elif '登录' in sign.text:
+        msg = "cookie失效啦！！！！\n"
+        pusher("V2EX  Cookie失效啦！！！")
+        return msg
     else:
         msg = '签到失败！\n'
         pusher("V2EX  签到失败！！！", sign.text[:200])
