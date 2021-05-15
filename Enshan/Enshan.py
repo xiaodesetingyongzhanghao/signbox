@@ -34,7 +34,7 @@ def run(*arg):
             data = h.xpath('//tr/td[6]/text()')
             msg += f'签到成功或今日已签到，最后签到时间：{data[0]}'
         else:
-            msg += '签到失败，可能是cookie失效了！'
+            msg += '恩山论坛签到失败，可能是cookie失效了！'
             pusher(msg)
     except:
         msg = '无法正常连接到网站，请尝试改变网络环境，试下本地能不能跑脚本，或者换几个时间点执行脚本'
