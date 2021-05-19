@@ -24,7 +24,9 @@
 
 <details>
   <summary>运行方式其一</summary>
+
 ~~Github Actions版本~~
+
 自行探索
 
 </details>
