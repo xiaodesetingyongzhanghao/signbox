@@ -1,5 +1,6 @@
 # CheckinBox
-### 自己用的一些脚本，不填数值默认不启用<br>
+<details>
+  <summary>目前已开发功能(不保证一定可用，随缘修)</summary>
 - [天翼云盘每日签到一次，抽奖2次](https://github.com/mengshouer/CheckinBox/tree/master/Cloud189Checkin)
 
 - [最终幻想14积分商城签到](https://github.com/mengshouer/CheckinBox/tree/master/FF14Checkin)
@@ -17,10 +18,12 @@
 - [恩山论坛签到](https://github.com/mengshouer/CheckinBox/tree/master/Enshan)
 
 - [智友邦签到](https://github.com/mengshouer/CheckinBox/tree/master/Zhiyou)
+</details>
 
-
-### Github Actions版本<br>
+<details>
+  <summary>~~Github Actions版本~~</summary>
 自行探索<br>
+</details>
 <br>
 ### [腾讯云函数SCF](https://console.cloud.tencent.com/scf/index)的版本<br>
 ### SCF计费问题：如果不是大量跑脚本的话，达不到收费标准的，如果不放心的话可以查询[账单详细](https://console.cloud.tencent.com/expense/bill/summary?businessCode=p_scf)<br>
@@ -34,12 +37,15 @@ value内输入：1.登录手机号 2.登录密码 3.推送服务设置值(可选
 6.进入函数→触发管理→新建触发器，按自己需求定时启动<br>
 7.自己酌情修改函数的内存与执行超时时间以及其他参数<br>
 
-### 多账号设置<br>
+<details>
+  <summary>多账号设置</summary>
 Github Actions版本直接Secrets内多账号时账号密码一行一个一一对应<br>
 腾讯云函数SCF在每个账号和密码后面添加\n，账号密码也是一一对应<br>
 无多Server酱推送<br>
+</details>
 
-### 报错提醒提示<br>
+<details>
+  <summary>报错提醒提示</summary>
 推送可以设置的参数( Key/name(名称) --> Value(值) )：<br>
 Github Actions添加在Setting→Secrets→New secrets，腾讯云函数SCF设置在环境变量里<br>
 1. Key: SCKEY --> Value: [Server酱的推送SCKEY的值](http://sc.ftqq.com/)<br>
@@ -53,8 +59,10 @@ Github Actions添加在Setting→Secrets→New secrets，腾讯云函数SCF设�
 9. Key: tg_api_host --> Value: Telegram api自建的反向代理地址(不懂忽略此项)，默认tg官方api=api.telegram.org<br>
 PS:腾讯云函数SCF的默认无推送，需要推送的话需要将[pusher.py](https://github.com/mengshouer/CheckinBox/blob/master/pusher.py)内的内容直接复制到所需函数的代码最上方！！！
 #### 一切提醒都是报错提醒，没问题不提醒
+</details>
 
-### 自动同步仓库设置<br>
+<details>
+  <summary>自动同步仓库设置</summary>
 基础使用：<br>
 > 上游变动后pull插件会自动发起pr，在默认的配置文件中如果有冲突需要自行**手动**确认。<br>
 
@@ -67,4 +75,4 @@ PS. 如果未设置pull.yml配置文件，则mergeMethod的规则默认为none(�
 1. 先完成基础使用后，在.github目录下(创建/修改)文件pull.yml<br>
 2. 参考[插件使用文档](https://github.com/wei/pull#advanced-setup-with-config)进行修改<br>
 PS.强制远程分支覆盖自己的分支只需要将mergeMethod的值修改为hardreset
-
+</details>
